@@ -8,11 +8,11 @@ namespace Application
 {
     public class DictionaryReader : IDisposable
     {
-        private FileStream Stream { get; }
+        private StreamReader Stream { get; }
 
         public DictionaryReader(string dictionaryLocation)
         {
-            this.Stream = File.OpenRead(dictionaryLocation);
+            this.Stream = new StreamReader(File.OpenRead(dictionaryLocation));
         }
 
         public void Dispose()
@@ -43,13 +43,10 @@ namespace Application
 
         public IEnumerable<Node> FindNeighbours(Node node)
         {
-            // Choose over reading line by line for fewer operations and better performance.
-            byte[] bytes = new byte[1024];
-            int readBytes = 0;
-            while ((readBytes = this.Stream.Read(bytes, 0, 1024)) != 0)
+            string readString = string.Empty;
+            while ((readString = this.Stream.ReadLine()) != null)
             {
-                string result = Encoding.UTF8.GetString(bytes);
-                MatchCollection matches = node.Regex.Matches(result);
+                MatchCollection matches = node.Regex.Matches(readString);
 
                 foreach (Match match in matches)
                 {
@@ -60,7 +57,7 @@ namespace Application
                 }
             }
 
-            this.Stream.Position = 0;
+            this.Stream.BaseStream.Position = 0;
         }
     }
 }

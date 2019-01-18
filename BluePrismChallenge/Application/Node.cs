@@ -12,7 +12,7 @@ namespace Application
         public Regex Regex { get; }
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Node"/> class.
+        /// Initialises a new instance of the <see cref="Node"/> class. 
         /// </summary>
         /// <param name="depth"></param>
         /// <param name="word"></param>
