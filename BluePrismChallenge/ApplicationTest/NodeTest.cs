@@ -6,10 +6,9 @@ namespace ApplicationTest
     public class NodeTest
     {
         [Fact]
-        public void ConstructorTest()
+        public void ConstructorSuccessTest()
         {
-            Node node = new Node(0, "test");
-
+            Node node = new Node("test");
             Assert.NotNull(node);
         }
     }

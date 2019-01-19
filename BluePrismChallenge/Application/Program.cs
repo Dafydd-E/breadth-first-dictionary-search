@@ -7,6 +7,7 @@ using Application.Searchers;
 using Application.Queues;
 using System.Diagnostics;
 using Application.Writers;
+using Microsoft.Extensions.Configuration;
 
 namespace Application
 {
@@ -69,13 +70,24 @@ namespace Application
 
         private static IServiceProvider ConfigureServices(IServiceCollection services, string[] args)
         {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            IConfigurationRoot configuration = builder.Build();
+
+            LogLevel loggingLevel = Enum.TryParse(
+                configuration.GetValue<string>("Logging:LogLevel"), out LogLevel logLevel)
+                    ? logLevel
+                    : LogLevel.Information;
+
             services
-                .AddLogging(options => options.AddConsole())
+                .AddLogging(options => options.AddConsole().SetMinimumLevel(loggingLevel))
                 .AddTransient<IDictionaryReader, DictionaryReader>(provider =>
                 {
                     return new DictionaryReader(args[0], provider.GetRequiredService<ILogger<DictionaryReader>>());
                 })
-                .AddTransient<IWriter<Node>, ResultWriter>(provider => 
+                .AddTransient<IWriter<Node>, ResultWriter>(provider =>
                 {
                     return new ResultWriter(args[3], provider.GetRequiredService<ILogger<ResultWriter>>());
                 })
