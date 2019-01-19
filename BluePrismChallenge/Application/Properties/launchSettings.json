@@ -2,7 +2,7 @@
   "profiles": {
     "Application": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Temp\\words-english.txt enid enos C:\\Temp\\output.txt"
+      "commandLineArgs": "C:\\Temp\\words-english.txt emma arch C:\\Temp\\output.txt"
     }
   }
 }

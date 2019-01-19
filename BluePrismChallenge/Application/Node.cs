@@ -24,11 +24,21 @@ namespace Application
             this.Parent = parent;
 
             this.Regex = new Regex(string.Format(
-                Formatters.RegexFormatter,
+                Constants.RegexFormatter,
                 word[0],
                 word[1],
                 word[2],
-                word[3]));
+                word[3]), RegexOptions.IgnoreCase);
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Word.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return this.Word;
         }
     }
 }

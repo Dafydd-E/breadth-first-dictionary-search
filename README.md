@@ -2,7 +2,7 @@
 
 ## Process
 
-After reviewing the challenge, I could see that this is a "searching" problem. I researched into different searching algorithms to identify the best for this scenario, which concluded with the decision to use the Iterative Deepening Depth-First search algorithm. Following this, I went onto plan the what classes I would need to implement my designed approach to the problem.
+After reviewing the challenge, I could see that this is a "searching" problem. I researched into different searching algorithms to identify the best for this scenario, which concluded with the decision to use the Breadth-First search algorithm. Following this, I went onto plan the what classes I would need to implement my designed approach to the problem.
 
 ## Early Considerations
 

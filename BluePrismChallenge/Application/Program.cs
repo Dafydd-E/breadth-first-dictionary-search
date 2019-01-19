@@ -1,46 +1,74 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
+using Microsoft.Extensions.Logging;
 using System.IO;
+using Application.Readers;
+using Application.Searchers;
 
 namespace Application
 {
     class Program
     {
+        private static ILogger<Program> Logger { get; set; }
+
         static void Main(string[] args)
         {
-            if (args.Length != 4)
+            ServiceCollection serviceCollection = new ServiceCollection();
+            IServiceProvider provider = ConfigureServices(serviceCollection, args);
+            Logger = provider.GetRequiredService<ILogger<Program>>();
+
+            if (args.Length != Constants.ArgumentLength)
             {
-                // TODO
-                Console.WriteLine("");
+                Logger.LogError("Expecting 4 command line arguments");
                 return;
             }
 
-            if (args[1].Length != 4 && args[2].Length != 4)
+            if (args[1].Length != Constants.WordLength && args[2].Length != Constants.WordLength)
             {
-                Console.WriteLine("The start and end word must both be 4 letters long");
+                Logger.LogError("The start and end word must both be 4 letters long");
                 return;
             }
 
             try
             {
-                using (DictionaryReader dictionaryReader = new DictionaryReader(args[0]))
+                using (ISearcher<Node, string> searcher = provider.GetRequiredService<ISearcher<Node, string>>())
                 {
                     Node rootNode = new Node(0, args[1]);
-                    Queue<Node> queue = new Queue<Node>();
+                    DistinctQueue<Node> queue = new DistinctQueue<Node>(
+                        provider.GetRequiredService<ILogger<DistinctQueue<Node>>>());
+
                     queue.Enqueue(rootNode);
 
-                    Node foundNode = dictionaryReader.ProcessQueue(queue, args[2]);
+                    Logger.LogInformation($"Finding shortest sequence of 4 " +
+                        $"letter words between {args[1]} and {args[2]}");
 
-                    ResultWriter resultWriter = new ResultWriter(args[3]);
+                    Node foundNode = searcher.SearchQueue(queue, args[2]);
+
+                    ResultWriter resultWriter = new ResultWriter(
+                        args[3], 
+                        provider.GetRequiredService<ILogger<ResultWriter>>());
+
                     resultWriter.WriteToFile(foundNode);
                 }
             }
             catch (IOException e)
             {
-                Console.WriteLine("An error occurred whilst trying to " +
-                    $"read the dictionary file with path {args[0]}");
-                Console.WriteLine(e.StackTrace);
+                Logger.LogError("An error occurred whilst trying to " +
+                    $"read the dictionary file with path {args[0]}", e);
             }
+        }
+
+        private static IServiceProvider ConfigureServices(IServiceCollection services, string[] args)
+        {
+            services
+                .AddLogging(options => options.AddConsole())
+                .AddTransient<IDictionaryReader<Node>, DictionaryReader>(provider =>
+                {
+                    return new DictionaryReader(args[0], provider.GetRequiredService<ILogger<DictionaryReader>>());
+                })
+                .AddTransient<ISearcher<Node, string>, WordBreadthFirstSearch>();
+
+            return services.BuildServiceProvider();
         }
     }
 }
