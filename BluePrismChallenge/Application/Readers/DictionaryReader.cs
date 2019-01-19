@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace Application.Readers
 {
@@ -9,6 +7,7 @@ namespace Application.Readers
     {
         private StreamReader Stream { get; }
         private ILogger<DictionaryReader> Logger { get; }
+        public string CurrentWord { get; private set; }
 
         public DictionaryReader(string dictionaryLocation, ILogger<DictionaryReader> logger)
         {
@@ -21,25 +20,14 @@ namespace Application.Readers
             this.Stream.Close();
         }
 
-        public IEnumerable<Node> FindNeighbours(Node node)
+        public bool Read()
         {
-            this.Logger.LogInformation($"Finding neighbours for node {node.ToString()}.");
+            this.CurrentWord = this.Stream.ReadLine();
+            return this.CurrentWord != null;
+        }
 
-            string readString = string.Empty;
-            while ((readString = this.Stream.ReadLine()) != null)
-            {
-                MatchCollection matches = node.Regex.Matches(readString);
-
-                foreach (Match match in matches)
-                {
-                    this.Logger.LogDebug($"Found neighbour {match.Value} for parent {node.Word}");
-                    if (match.Length == 4 && match.Value != node.Parent?.Word)
-                    {
-                        yield return new Node(node.Depth + 1, match.Value, node);
-                    }
-                }
-            }
-
+        public void ResetReader()
+        {
             this.Logger.LogDebug("Returning the stream to it's starting position");
             this.Stream.BaseStream.Position = 0;
         }

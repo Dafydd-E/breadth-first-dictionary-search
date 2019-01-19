@@ -21,7 +21,7 @@ namespace Application.Searchers
         {
             if (nodes.TryDequeue(out Node node))
             {
-                IEnumerable<Node> neighbours = this.Reader.FindNeighbours(node);
+                IEnumerable<Node> neighbours = this.FindNeighbours(node);
 
                 foreach (Node neighbour in neighbours)
                 {
@@ -39,6 +39,28 @@ namespace Application.Searchers
             }
 
             return null;
+        }
+
+        public IEnumerable<Node> FindNeighbours(Node node)
+        {
+            this.Logger.LogInformation($"Finding neighbours for node {node.ToString()}.");
+
+            string readString = string.Empty;
+            while (this.Reader.Read())
+            {
+                MatchCollection matches = node.Regex.Matches(this.Reader.CurrentWord);
+
+                foreach (Match match in matches)
+                {
+                    this.Logger.LogDebug($"Found neighbour {match.Value} for parent {node.Word}");
+                    if (match.Length == 4 && match.Value != node.Parent?.Word)
+                    {
+                        yield return new Node(node.Depth + 1, match.Value, node);
+                    }
+                }
+            }
+
+            this.Reader.ResetReader();
         }
 
         public void Dispose()

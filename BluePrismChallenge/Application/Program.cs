@@ -65,7 +65,7 @@ namespace Application
                     $"read the dictionary file with path {args[0]}", e);
             }
 
-            Console.WriteLine("Press any key to exit.");
+            Console.WriteLine("Press enter to exit.");
             Console.Read();
         }
 

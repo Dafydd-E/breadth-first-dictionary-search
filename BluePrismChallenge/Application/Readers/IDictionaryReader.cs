@@ -5,6 +5,8 @@ namespace Application.Readers
 {
     public interface IDictionaryReader<T> : IDisposable
     {
-        IEnumerable<T> FindNeighbours(T item);
+        string CurrentWord { get; }
+        bool Read();
+        void ResetReader();
     }
 }

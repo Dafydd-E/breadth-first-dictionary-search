@@ -1,6 +1,5 @@
 ﻿using Application.Queues;
 using System;
-using System.Collections.Generic;
 
 namespace Application.Searchers
 {
