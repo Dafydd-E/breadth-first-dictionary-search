@@ -1,13 +1,15 @@
-﻿using Application.Readers;
+﻿using Application.Queues;
+using Application.Readers;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Application.Searchers
 {
     public class WordBreadthFirstSearch : ISearcher<Node, string>
     {
         private IDictionaryReader<Node> Reader { get; }
-        private ILogger<WordBreadthFirstSearch> Logger {get;}
+        private ILogger<WordBreadthFirstSearch> Logger { get; }
 
         public WordBreadthFirstSearch(IDictionaryReader<Node> reader, ILogger<WordBreadthFirstSearch> logger)
         {
@@ -15,7 +17,7 @@ namespace Application.Searchers
             this.Logger = logger;
         }
 
-        public Node SearchQueue(DistinctQueue<Node> nodes, string endWord)
+        public Node SearchQueue(IQueue<Node> nodes, string endWord)
         {
             if (nodes.TryDequeue(out Node node))
             {
@@ -30,10 +32,7 @@ namespace Application.Searchers
                         return neighbour;
                     }
 
-                    if (!nodes.Contains(neighbour))
-                    {
-                        nodes.Enqueue(neighbour);
-                    }
+                    nodes.Enqueue(neighbour);
                 }
 
                 return this.SearchQueue(nodes, endWord);

@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using System.IO;
 using Application.Readers;
 using Application.Searchers;
+using Application.Queues;
+using System.Diagnostics;
 
 namespace Application
 {
@@ -33,8 +35,10 @@ namespace Application
             {
                 using (ISearcher<Node, string> searcher = provider.GetRequiredService<ISearcher<Node, string>>())
                 {
+                    Stopwatch timer = new Stopwatch();
+
                     Node rootNode = new Node(0, args[1]);
-                    DistinctQueue<Node> queue = new DistinctQueue<Node>(
+                    IQueue<Node> queue = new DistinctQueue<Node>(
                         provider.GetRequiredService<ILogger<DistinctQueue<Node>>>());
 
                     queue.Enqueue(rootNode);
@@ -42,7 +46,11 @@ namespace Application
                     Logger.LogInformation($"Finding shortest sequence of 4 " +
                         $"letter words between {args[1]} and {args[2]}");
 
+                    timer.Start();
                     Node foundNode = searcher.SearchQueue(queue, args[2]);
+                    timer.Stop();
+
+                    Logger.LogInformation($"Search completed in {timer.ElapsedMilliseconds}ms");
 
                     ResultWriter resultWriter = new ResultWriter(
                         args[3], 
@@ -56,6 +64,9 @@ namespace Application
                 Logger.LogError("An error occurred whilst trying to " +
                     $"read the dictionary file with path {args[0]}", e);
             }
+
+            Console.WriteLine("Press any key to exit.");
+            Console.Read();
         }
 
         private static IServiceProvider ConfigureServices(IServiceCollection services, string[] args)
