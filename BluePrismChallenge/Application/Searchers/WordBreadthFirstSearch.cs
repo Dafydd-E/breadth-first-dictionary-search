@@ -6,12 +6,30 @@ using System.Text.RegularExpressions;
 
 namespace Application.Searchers
 {
+    /// <summary>
+    /// Searhes the queue using the Breadth-First search algorithm.
+    /// </summary>
     public class WordBreadthFirstSearch : ISearcher<Node, string>
     {
-        private IDictionaryReader<Node> Reader { get; }
+        /// <summary>
+        /// Gets the dictionary reader.
+        /// </summary>
+        private IDictionaryReader Reader { get; }
+
+        /// <summary>
+        /// Gets the logger.
+        /// </summary>
         private ILogger<WordBreadthFirstSearch> Logger { get; }
 
-        public WordBreadthFirstSearch(IDictionaryReader<Node> reader, ILogger<WordBreadthFirstSearch> logger)
+        /// <summary>
+        /// Initialises a new instance of the 
+        /// <see cref="WordBreadthFirstSearch"/> class.
+        /// </summary>
+        /// <param name="reader">The dictionary reader.</param>
+        /// <param name="logger">The logger instance.</param>
+        public WordBreadthFirstSearch(
+            IDictionaryReader reader, 
+            ILogger<WordBreadthFirstSearch> logger)
         {
             this.Reader = reader;
             this.Logger = logger;
@@ -41,6 +59,11 @@ namespace Application.Searchers
             return null;
         }
 
+        /// <summary>
+        /// Finds the neighbouring node's to the given node.
+        /// </summary>
+        /// <param name="node">The node to find it's neighbours.</param>
+        /// <returns>List of neighouring nodes.</returns>
         public IEnumerable<Node> FindNeighbours(Node node)
         {
             this.Logger.LogInformation($"Finding neighbours for node {node.ToString()}.");
@@ -52,10 +75,10 @@ namespace Application.Searchers
 
                 foreach (Match match in matches)
                 {
-                    this.Logger.LogDebug($"Found neighbour {match.Value} for parent {node.Word}");
+                    this.Logger.LogTrace($"Found neighbour {match.Value} for parent {node.Word}");
                     if (match.Length == 4 && match.Value != node.Parent?.Word)
                     {
-                        yield return new Node(node.Depth + 1, match.Value, node);
+                        yield return new Node(match.Value, node);
                     }
                 }
             }
@@ -63,6 +86,9 @@ namespace Application.Searchers
             this.Reader.ResetReader();
         }
 
+        /// <summary>
+        /// Disposes the dictionary reader.
+        /// </summary>
         public void Dispose()
         {
             this.Reader.Dispose();

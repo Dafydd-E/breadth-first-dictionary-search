@@ -6,6 +6,7 @@ using Application.Readers;
 using Application.Searchers;
 using Application.Queues;
 using System.Diagnostics;
+using Application.Writers;
 
 namespace Application
 {
@@ -37,7 +38,7 @@ namespace Application
                 {
                     Stopwatch timer = new Stopwatch();
 
-                    Node rootNode = new Node(0, args[1]);
+                    Node rootNode = new Node(args[1]);
                     IQueue<Node> queue = new DistinctQueue<Node>(
                         provider.GetRequiredService<ILogger<DistinctQueue<Node>>>());
 
@@ -52,11 +53,8 @@ namespace Application
 
                     Logger.LogInformation($"Search completed in {timer.ElapsedMilliseconds}ms");
 
-                    ResultWriter resultWriter = new ResultWriter(
-                        args[3], 
-                        provider.GetRequiredService<ILogger<ResultWriter>>());
-
-                    resultWriter.WriteToFile(foundNode);
+                    IWriter<Node> resultWriter = provider.GetRequiredService<IWriter<Node>>();
+                    resultWriter.Write(foundNode);
                 }
             }
             catch (IOException e)
@@ -73,9 +71,13 @@ namespace Application
         {
             services
                 .AddLogging(options => options.AddConsole())
-                .AddTransient<IDictionaryReader<Node>, DictionaryReader>(provider =>
+                .AddTransient<IDictionaryReader, DictionaryReader>(provider =>
                 {
                     return new DictionaryReader(args[0], provider.GetRequiredService<ILogger<DictionaryReader>>());
+                })
+                .AddTransient<IWriter<Node>, ResultWriter>(provider => 
+                {
+                    return new ResultWriter(args[3], provider.GetRequiredService<ILogger<ResultWriter>>());
                 })
                 .AddTransient<ISearcher<Node, string>, WordBreadthFirstSearch>();
 

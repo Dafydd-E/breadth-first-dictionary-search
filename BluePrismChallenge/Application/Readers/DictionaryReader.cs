@@ -3,29 +3,58 @@ using System.IO;
 
 namespace Application.Readers
 {
-    public class DictionaryReader : IDictionaryReader<Node>
+    /// <summary>
+    /// Reads from a local TXT dictionary file.
+    /// </summary>
+    public class DictionaryReader : IDictionaryReader
     {
+        /// <summary>
+        /// Gets the file stream reader.
+        /// </summary>
         private StreamReader Stream { get; }
+
+        /// <summary>
+        /// Gets the logger.
+        /// </summary>
         private ILogger<DictionaryReader> Logger { get; }
+
+        /// <summary>
+        /// Gets the current word read by the stream.s
+        /// </summary>
         public string CurrentWord { get; private set; }
 
+        /// <summary>
+        /// Initialises a new instance of the <see cref="DictionaryReader"/> class.
+        /// </summary>
+        /// <param name="dictionaryLocation">The location of the dictionary.</param>
+        /// <param name="logger">The logger.</param>
         public DictionaryReader(string dictionaryLocation, ILogger<DictionaryReader> logger)
         {
             this.Stream = new StreamReader(File.OpenRead(dictionaryLocation));
             this.Logger = logger;
         }
 
+        /// <summary>
+        /// Closes the stream reader.
+        /// </summary>
         public void Dispose()
         {
             this.Stream.Close();
         }
 
+        /// <summary>
+        /// Reads the next line from the stream.
+        /// </summary>
+        /// <returns>Value indicating if a value was obtained from the stream.</returns>
         public bool Read()
         {
             this.CurrentWord = this.Stream.ReadLine();
             return this.CurrentWord != null;
         }
 
+        /// <summary>
+        /// Sets the <see cref="Stream"/> back to the beginning of the file.
+        /// </summary>
         public void ResetReader()
         {
             this.Logger.LogDebug("Returning the stream to it's starting position");
