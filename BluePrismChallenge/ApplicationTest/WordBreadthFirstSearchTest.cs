@@ -47,6 +47,7 @@ namespace ApplicationTest
         {
             using (WordBreadthFirstSearch search = new WordBreadthFirstSearch(
                 new DictionaryReader(TestPath, ServiceHelper.GetService<ILogger<DictionaryReader>>()),
+                new DistinctQueue<Node>(ServiceHelper.GetService<ILogger<DistinctQueue<Node>>>()),
                 ServiceHelper.GetService<ILogger<WordBreadthFirstSearch>>()))
             {
                 IEnumerator<Node> neighbours = search.FindNeighbours(new Node("Rosh")).GetEnumerator();
@@ -68,14 +69,10 @@ namespace ApplicationTest
         {
             using (WordBreadthFirstSearch search = new WordBreadthFirstSearch(
                 new DictionaryReader(TestPath, ServiceHelper.GetService<ILogger<DictionaryReader>>()),
+                new DistinctQueue<Node>(ServiceHelper.GetService<ILogger<DistinctQueue<Node>>>()),
                 ServiceHelper.GetService<ILogger<WordBreadthFirstSearch>>()))
             {
-                DistinctQueue<Node> queue = new DistinctQueue<Node>(
-                    ServiceHelper.GetService<ILogger<DistinctQueue<Node>>>());
-
-                queue.Enqueue(new Node("Ross"));
-
-                Node node = search.Search(queue, new Node("Roth"));
+                Node node = search.Search(new Node("Ross"), new Node("Roth"));
                 Assert.Equal("Roth", node.Word);
                 node = node.Parent;
                 Assert.Equal("Rosh", node.Word);

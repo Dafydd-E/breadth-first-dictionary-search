@@ -11,7 +11,7 @@ namespace Application.Searchers
     /// <summary>
     /// Searhes the queue using the Breadth-First search algorithm.
     /// </summary>
-    public class WordBreadthFirstSearch : ISearcher<Node>
+    public class WordBreadthFirstSearch : IPathFinder<Node>
     {
         /// <summary>
         /// Gets the dictionary reader.
@@ -23,6 +23,8 @@ namespace Application.Searchers
         /// </summary>
         private ILogger<WordBreadthFirstSearch> Logger { get; }
 
+        private IQueue<Node> Queue { get; }
+
         /// <summary>
         /// Initialises a new instance of the 
         /// <see cref="WordBreadthFirstSearch"/> class.
@@ -31,10 +33,12 @@ namespace Application.Searchers
         /// <param name="logger">The logger instance.</param>
         public WordBreadthFirstSearch(
             IReader reader,
+            IQueue<Node> queue,
             ILogger<WordBreadthFirstSearch> logger)
         {
             this.Reader = reader;
             this.Logger = logger;
+            this.Queue = queue;
         }
 
         /// <summary>
@@ -44,9 +48,11 @@ namespace Application.Searchers
         /// to explore adjacent words in the dictionary.</param>
         /// <param name="target">The item to search for.</param>
         /// <returns>The found object.</returns>
-        public Node Search(IQueue<Node> nodes, Node target)
+        public Node Search(Node start, Node target)
         {
-            if (nodes.TryDequeue(out Node node))
+            this.Queue.Enqueue(start);
+
+            while (this.Queue.TryDequeue(out Node node))
             {
                 IEnumerable<Node> neighbours = this.FindNeighbours(node);
 
@@ -55,14 +61,12 @@ namespace Application.Searchers
                     if (neighbour.Word.Equals(target.Word, StringComparison.OrdinalIgnoreCase))
                     {
                         this.Logger.LogInformation($"Found end word {target.ToString()}");
-                        nodes.Clear();
+                        this.Queue.Clear();
                         return neighbour;
                     }
 
-                    nodes.Enqueue(neighbour);
+                    this.Queue.Enqueue(neighbour);
                 }
-
-                return this.Search(nodes, target);
             }
 
             return null;

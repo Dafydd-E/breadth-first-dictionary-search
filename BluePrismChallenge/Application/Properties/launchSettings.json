@@ -2,6 +2,10 @@
   "profiles": {
     "Application": {
       "commandName": "Project",
+      "commandLineArgs": "C:\\Temp\\words-english.txt york arch C:\\Temp\\output.txt"
+    },
+    "Debug": {
+      "commandName": "Project",
       "commandLineArgs": "C:\\Temp\\words-english.txt emma arch C:\\Temp\\output.txt"
     }
   }
