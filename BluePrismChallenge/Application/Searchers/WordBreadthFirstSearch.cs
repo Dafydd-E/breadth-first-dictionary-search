@@ -15,7 +15,7 @@ namespace Application.Searchers
         /// <summary>
         /// Gets the dictionary reader.
         /// </summary>
-        private IDictionaryReader Reader { get; }
+        private IReader Reader { get; }
 
         /// <summary>
         /// Gets the logger.
@@ -29,7 +29,7 @@ namespace Application.Searchers
         /// <param name="reader">The dictionary reader.</param>
         /// <param name="logger">The logger instance.</param>
         public WordBreadthFirstSearch(
-            IDictionaryReader reader, 
+            IReader reader, 
             ILogger<WordBreadthFirstSearch> logger)
         {
             this.Reader = reader;

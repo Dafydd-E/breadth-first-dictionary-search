@@ -83,7 +83,7 @@ namespace Application
 
             services
                 .AddLogging(options => options.AddConsole().SetMinimumLevel(loggingLevel))
-                .AddTransient<IDictionaryReader, DictionaryReader>(provider =>
+                .AddTransient<IReader, DictionaryReader>(provider =>
                 {
                     return new DictionaryReader(args[0], provider.GetRequiredService<ILogger<DictionaryReader>>());
                 })

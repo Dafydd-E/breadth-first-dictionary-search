@@ -6,7 +6,7 @@ namespace Application.Readers
     /// <summary>
     /// Reads from a local TXT dictionary file.
     /// </summary>
-    public class DictionaryReader : IDictionaryReader
+    public class DictionaryReader : IReader
     {
         /// <summary>
         /// Gets the file stream reader.
@@ -21,7 +21,7 @@ namespace Application.Readers
         /// <summary>
         /// Gets the current word read by the stream.s
         /// </summary>
-        public string CurrentWord { get; private set; }
+        public string CurrentString { get; private set; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="DictionaryReader"/> class.
@@ -48,8 +48,8 @@ namespace Application.Readers
         /// <returns>Value indicating if a value was obtained from the stream.</returns>
         public bool Read()
         {
-            this.CurrentWord = this.Stream.ReadLine();
-            return this.CurrentWord != null;
+            this.CurrentString = this.Stream.ReadLine();
+            return this.CurrentString != null;
         }
 
         /// <summary>

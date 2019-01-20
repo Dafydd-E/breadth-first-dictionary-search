@@ -5,12 +5,12 @@ namespace Application.Readers
     /// <summary>
     /// Defines the properties and methods required to read from a dictionary.
     /// </summary>
-    public interface IDictionaryReader : IDisposable
+    public interface IReader : IDisposable
     {
         /// <summary>
         /// Gets the current read word.
         /// </summary>
-        string CurrentWord { get; }
+        string CurrentString { get; }
 
         /// <summary>
         /// Reads from the stream.

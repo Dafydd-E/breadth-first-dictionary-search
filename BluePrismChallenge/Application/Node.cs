@@ -8,10 +8,24 @@ namespace Application
     /// </summary>
     public class Node
     {
+        /// <summary>
+        /// Gets the word associated with the node.
+        /// </summary>
         public string Word { get; }
+
+        /// <summary>
+        /// Gets the parent node.
+        /// </summary>
         public Node Parent { get; }
+
+        /// <summary>
+        /// Gets the regex used to find the nearest neighbours for the node.
+        /// </summary>
         public Regex Regex { get; }
 
+        /// <summary>
+        /// Gets the neighbours to the current node.
+        /// </summary>
         private IEnumerable<Node> Neighbours { get; }
 
         /// <summary>
@@ -24,12 +38,14 @@ namespace Application
             this.Word = word;
             this.Parent = parent;
 
-            this.Regex = new Regex(string.Format(
-                Constants.RegexFormatter,
-                word[0],
-                word[1],
-                word[2],
-                word[3]), RegexOptions.IgnoreCase);
+            this.Regex = new Regex(
+                string.Format(
+                    Constants.RegexFormatter,
+                    word[0],
+                    word[1],
+                    word[2],
+                    word[3]), 
+                RegexOptions.IgnoreCase);
         }
 
         /// <summary>
