@@ -69,13 +69,31 @@ namespace Application
             Console.Read();
         }
 
-        private static IServiceProvider ConfigureServices(IServiceCollection services, string[] args)
+        /// <summary>
+        /// Gets the configuration populated with the values from the appsettings.json file.
+        /// </summary>
+        private static IConfigurationRoot GetConfiguration()
         {
-            var builder = new ConfigurationBuilder()
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+                // Assume that the appsettings.json file is in the 
+                // same directory as the application.
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
-            IConfigurationRoot configuration = builder.Build();
+            return builder.Build();
+        }
+
+        /// <summary>
+        /// Configues the dependency injection container with the different services for the application.
+        /// </summary>
+        /// <param name="services">The service collection.</param>
+        /// <param name="args">The application command line arguments.</param>
+        /// <returns>The built service provider.</returns>
+        private static IServiceProvider ConfigureServices(
+            IServiceCollection services,
+            string[] args)
+        {
+            IConfigurationRoot configuration = GetConfiguration();
 
             LogLevel loggingLevel = Enum.TryParse(
                 configuration.GetValue<string>("Logging:LogLevel"), out LogLevel logLevel)
@@ -83,14 +101,20 @@ namespace Application
                     : LogLevel.Information;
 
             services
-                .AddLogging(options => options.AddConsole().SetMinimumLevel(loggingLevel))
+                .AddLogging(options => options
+                    .AddConsole()
+                    .SetMinimumLevel(loggingLevel))
                 .AddTransient<IReader, DictionaryReader>(provider =>
                 {
-                    return new DictionaryReader(args[0], provider.GetRequiredService<ILogger<DictionaryReader>>());
+                    return new DictionaryReader(
+                        args[0],
+                        provider.GetRequiredService<ILogger<DictionaryReader>>());
                 })
                 .AddTransient<IWriter<Node>, ResultWriter>(provider =>
                 {
-                    return new ResultWriter(args[3], provider.GetRequiredService<ILogger<ResultWriter>>());
+                    return new ResultWriter(
+                        args[3],
+                        provider.GetRequiredService<ILogger<ResultWriter>>());
                 })
                 .AddTransient<ISearcher<Node>, WordBreadthFirstSearch>();
 
