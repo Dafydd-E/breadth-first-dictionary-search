@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Application.Models;
+using Microsoft.Extensions.Logging;
 using System.IO;
 using System.Text;
 

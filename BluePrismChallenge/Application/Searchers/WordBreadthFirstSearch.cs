@@ -1,4 +1,5 @@
-﻿using Application.Queues;
+﻿using Application.Models;
+using Application.Queues;
 using Application.Readers;
 using Microsoft.Extensions.Logging;
 using System;

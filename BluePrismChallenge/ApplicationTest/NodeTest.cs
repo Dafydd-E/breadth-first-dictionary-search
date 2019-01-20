@@ -1,4 +1,4 @@
-﻿using Application;
+﻿using Application.Models;
 using Xunit;
 
 namespace ApplicationTest

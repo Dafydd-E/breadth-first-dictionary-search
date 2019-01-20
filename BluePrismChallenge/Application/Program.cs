@@ -1,13 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using Microsoft.Extensions.Logging;
-using System.IO;
+﻿using Application.Models;
+using Application.Queues;
 using Application.Readers;
 using Application.Searchers;
-using Application.Queues;
-using System.Diagnostics;
 using Application.Writers;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace Application
 {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Application
+namespace Application.Models
 {
     /// <summary>
     /// Class to model a word in the word ladder
