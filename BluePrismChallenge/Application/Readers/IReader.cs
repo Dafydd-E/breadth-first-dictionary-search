@@ -22,5 +22,10 @@ namespace Application.Readers
         /// Resets the reader to the start of it's stream.
         /// </summary>
         void ResetReader();
+
+        /// <summary>
+        /// Gets a value indicating that the stream has reached the end.
+        /// </summary>
+        bool AtEndOfStream();
     }
 }

@@ -30,7 +30,7 @@ namespace Application.Searchers
         /// <param name="reader">The dictionary reader.</param>
         /// <param name="logger">The logger instance.</param>
         public WordBreadthFirstSearch(
-            IReader reader, 
+            IReader reader,
             ILogger<WordBreadthFirstSearch> logger)
         {
             this.Reader = reader;
@@ -51,7 +51,7 @@ namespace Application.Searchers
 
                 foreach (Node neighbour in neighbours)
                 {
-                    if (neighbour.Word.Equals(target.Word,  StringComparison.OrdinalIgnoreCase))
+                    if (neighbour.Word.Equals(target.Word, StringComparison.OrdinalIgnoreCase))
                     {
                         this.Logger.LogInformation($"Found end word {target.ToString()}");
                         nodes.Clear();
@@ -84,7 +84,9 @@ namespace Application.Searchers
                 foreach (Match match in matches)
                 {
                     this.Logger.LogTrace($"Found neighbour {match.Value} for parent {node.Word}");
-                    if (match.Length == Constants.WordLength && match.Value != node.Parent?.Word)
+                    if (match.Length == Constants.WordLength &&
+                        !match.Value.Equals(node.Parent?.Word, StringComparison.OrdinalIgnoreCase) &&
+                        !match.Value.Equals(node.Word, StringComparison.OrdinalIgnoreCase))
                     {
                         yield return new Node(match.Value, node);
                     }
