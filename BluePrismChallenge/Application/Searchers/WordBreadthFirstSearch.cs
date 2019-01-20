@@ -38,11 +38,12 @@ namespace Application.Searchers
         }
 
         /// <summary>
-        /// 
+        /// Executes the search until the target is found.
         /// </summary>
-        /// <param name="nodes"></param>
-        /// <param name="target"></param>
-        /// <returns></returns>
+        /// <param name="nodes"><see cref="IQueue{Node}"/> containing the nodes
+        /// to explore adjacent words in the dictionary.</param>
+        /// <param name="target">The item to search for.</param>
+        /// <returns>The found object.</returns>
         public Node Search(IQueue<Node> nodes, Node target)
         {
             if (nodes.TryDequeue(out Node node))
