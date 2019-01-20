@@ -42,6 +42,11 @@ namespace Application.Readers
             this.Stream.Close();
         }
 
+        public bool AtEndOfStream()
+        {
+            return this.Stream.EndOfStream;
+        }
+
         /// <summary>
         /// Reads the next line from the stream.
         /// </summary>
@@ -59,6 +64,7 @@ namespace Application.Readers
         {
             this.Logger.LogDebug("Returning the stream to it's starting position");
             this.Stream.BaseStream.Position = 0;
+            this.CurrentString = null;
         }
     }
 }
