@@ -84,7 +84,7 @@ namespace Application.Searchers
                 foreach (Match match in matches)
                 {
                     this.Logger.LogTrace($"Found neighbour {match.Value} for parent {node.Word}");
-                    if (match.Length == 4 && match.Value != node.Parent?.Word)
+                    if (match.Length == Constants.WordLength && match.Value != node.Parent?.Word)
                     {
                         yield return new Node(match.Value, node);
                     }
