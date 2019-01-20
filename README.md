@@ -32,7 +32,7 @@ I used this and not appending to a list for storing explored words, as this is m
 
 ## Unit Testing
 
-Once my implementations had been completed I added Unit Tests, to ensure that my classes and methods behaved the way I expected them too and to ensure that any additional change sets didn't break functionality.
+Once my implementations had been completed I added Unit Tests, to ensure that my classes and methods behaved the way I expected them to and to ensure that any additional change sets didn't break functionality.
 
 I didn't use TDD in this small project due to it's size and the timeline I didn't want to create my test without ensuring that I could finish the project by the due date.
 
