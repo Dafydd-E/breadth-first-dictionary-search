@@ -10,7 +10,7 @@ namespace Application.Searchers
     /// <summary>
     /// Searhes the queue using the Breadth-First search algorithm.
     /// </summary>
-    public class WordBreadthFirstSearch : ISearcher<Node, string>
+    public class WordBreadthFirstSearch : ISearcher<Node>
     {
         /// <summary>
         /// Gets the dictionary reader.
@@ -36,7 +36,13 @@ namespace Application.Searchers
             this.Logger = logger;
         }
 
-        public Node SearchQueue(IQueue<Node> nodes, string endWord)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="nodes"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public Node Search(IQueue<Node> nodes, Node target)
         {
             if (nodes.TryDequeue(out Node node))
             {
@@ -44,9 +50,9 @@ namespace Application.Searchers
 
                 foreach (Node neighbour in neighbours)
                 {
-                    if (neighbour.Word.Equals(endWord,  StringComparison.OrdinalIgnoreCase))
+                    if (neighbour.Word.Equals(target.Word,  StringComparison.OrdinalIgnoreCase))
                     {
-                        this.Logger.LogInformation($"Found end word {endWord}");
+                        this.Logger.LogInformation($"Found end word {target.ToString()}");
                         nodes.Clear();
                         return neighbour;
                     }
@@ -54,7 +60,7 @@ namespace Application.Searchers
                     nodes.Enqueue(neighbour);
                 }
 
-                return this.SearchQueue(nodes, endWord);
+                return this.Search(nodes, target);
             }
 
             return null;
@@ -72,7 +78,7 @@ namespace Application.Searchers
             string readString = string.Empty;
             while (this.Reader.Read())
             {
-                MatchCollection matches = node.Regex.Matches(this.Reader.CurrentWord);
+                MatchCollection matches = node.Regex.Matches(this.Reader.CurrentString);
 
                 foreach (Match match in matches)
                 {

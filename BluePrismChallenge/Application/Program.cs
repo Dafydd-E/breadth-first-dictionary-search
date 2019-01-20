@@ -35,7 +35,7 @@ namespace Application
 
             try
             {
-                using (ISearcher<Node, string> searcher = provider.GetRequiredService<ISearcher<Node, string>>())
+                using (ISearcher<Node> searcher = provider.GetRequiredService<ISearcher<Node>>())
                 {
                     Stopwatch timer = new Stopwatch();
 
@@ -49,7 +49,7 @@ namespace Application
                         $"letter words between {args[1]} and {args[2]}");
 
                     timer.Start();
-                    Node foundNode = searcher.SearchQueue(queue, args[2]);
+                    Node foundNode = searcher.Search(queue, new Node(args[2]));
                     timer.Stop();
 
                     Logger.LogInformation($"Search completed in {timer.ElapsedMilliseconds}ms");
@@ -91,7 +91,7 @@ namespace Application
                 {
                     return new ResultWriter(args[3], provider.GetRequiredService<ILogger<ResultWriter>>());
                 })
-                .AddTransient<ISearcher<Node, string>, WordBreadthFirstSearch>();
+                .AddTransient<ISearcher<Node>, WordBreadthFirstSearch>();
 
             return services.BuildServiceProvider();
         }

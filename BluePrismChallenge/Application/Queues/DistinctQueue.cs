@@ -9,8 +9,19 @@ namespace Application.Queues
     /// <typeparam name="T">The type of items contained in the queue.</typeparam>
     public class DistinctQueue<T> : IQueue<T>
     {
+        /// <summary>
+        /// Gets the queue of items.
+        /// </summary>
         private Queue<T> Queue { get; } = new Queue<T>();
+
+        /// <summary>
+        /// Gets the hash of items in the queue.
+        /// </summary>
         private HashSet<int> Hash { get; } = new HashSet<int>();
+
+        /// <summary>
+        /// Gets the logger instance.
+        /// </summary>
         private ILogger<DistinctQueue<T>> Logger { get; }
 
         /// <summary>
@@ -34,6 +45,7 @@ namespace Application.Queues
         /// </returns>
         public bool Contains(T item)
         {
+            this.Logger.LogTrace($"Checking if the item {item} is contained in the hash.");
             return this.Hash.Contains(item.GetHashCode());
 
         }
@@ -47,7 +59,7 @@ namespace Application.Queues
         {
             if (this.Hash.Add(item.GetHashCode()))
             {
-                this.Logger.LogDebug($"Adding item to queue {item.ToString()}");
+                this.Logger.LogTrace($"Adding item to queue {item.ToString()}");
                 this.Queue.Enqueue(item);
             }
         }
