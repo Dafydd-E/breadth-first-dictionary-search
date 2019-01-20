@@ -1,6 +1,7 @@
 ﻿using Application.Queues;
 using Application.Readers;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -43,7 +44,7 @@ namespace Application.Searchers
 
                 foreach (Node neighbour in neighbours)
                 {
-                    if (neighbour.Word == endWord)
+                    if (neighbour.Word.Equals(endWord,  StringComparison.OrdinalIgnoreCase))
                     {
                         this.Logger.LogInformation($"Found end word {endWord}");
                         nodes.Clear();

@@ -37,7 +37,7 @@ namespace Application
         /// </summary>
         public override int GetHashCode()
         {
-            return this.Word.GetHashCode();
+            return this.Word.ToLower().GetHashCode();
         }
 
         /// <summary>
