@@ -25,6 +25,8 @@ namespace Application.PathFinders
 
         private IQueue<Node> Queue { get; }
 
+        private IEnumerable<string> Collection { get; }
+
         /// <summary>
         /// Initialises a new instance of the 
         /// <see cref="WordBreadthFirstSearch"/> class.
@@ -36,7 +38,7 @@ namespace Application.PathFinders
             IQueue<Node> queue,
             ILogger<WordBreadthFirstSearch> logger)
         {
-            this.Reader = reader;
+            this.Collection = reader.Read();
             this.Logger = logger;
             this.Queue = queue;
         }
@@ -52,16 +54,14 @@ namespace Application.PathFinders
         {
             this.Queue.Enqueue(start);
 
-            IEnumerable<string> collection = this.Reader.Read();
-
             while (this.Queue.TryDequeue(out Node node))
             {
-                IEnumerable<Node> neighbours = this.FindNeighbours(node, collection);
+                IEnumerable<Node> neighbours = this.FindNeighbours(node, this.Collection);
                 foreach (Node neighbour in neighbours)
                 {
                     if (neighbour.Word.Equals(target.Word, StringComparison.OrdinalIgnoreCase))
                     {
-                        this.Logger.LogInformation($"Found end word {target.ToString()}");
+                        this.Logger.LogInformation($"Found target word {target.ToString()}");
                         this.Queue.Clear();
                         return neighbour;
                     }

@@ -4,6 +4,6 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>Application</ActiveDebugProfile>
+    <ActiveDebugProfile>Voss &gt; Rene</ActiveDebugProfile>
   </PropertyGroup>
 </Project>
