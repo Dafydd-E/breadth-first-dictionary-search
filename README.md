@@ -12,13 +12,13 @@ After reviewing the challenge, I could see that this is a "searching" problem. I
 
 ## Early Considerations
 
-One of the early considerations I needed to address was how I was going to read from the dictionary `.txt` file. I came to the conclusion to use a `StreamReader` and to read the dictionary line by line for simplicity and to avoid loading the entire dictionary file into memory which could have disastrous consequences in a memory-restricted environment.
+One of the early considerations I needed to address was how I was going to read from the dictionary `.txt` file. Loading the dictionary into memory would lead to a more efficient application but could be catastrophic in a memory restricted environment when using a large dictionary. I decided to use a `StreamReader` and only cache the four letter words in the dictionary, this way the memory usage is minimised whilst maximising performance.  
 
 ## Implementation of a Unique Queue
 
-Since the C# `Queue<T>` can have duplicated objects, I implemented a distinct queue to add words which needed to be explored by the Breadth-First search algorithm and to retrieve the next word to execute the search. Behind the scenes, this used a C# `Queue<T>`and a `HashSet<int>`, which contained a distinct list of hashes words that have been and to be explored.
+Since the C# `Queue<T>` can have duplicate objects, I extended the C# `Queue<T>` with a `DistinctQueue<T>` to add words which needed to be explored by the Breadth-First search algorithm and to retrieve the next word to execute the search. Behind the scenes, this used a `HashSet<int>`, which contained a distinct list of hashed words that have been and to be explored.
 
-I used this and not appending to a list for storing explored words, as this is more memory efficient and allows for quicker lookups if the word has been explored as the `HashSet<T>` does not store the order of the elements that enter the set.
+I used a `HashSet<int>` and not a `List<Node>` for storing explored words, as this is more memory efficient and allows for quicker lookups.
 
 ## Dependency Injection
 
