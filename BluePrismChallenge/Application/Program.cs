@@ -1,7 +1,7 @@
 ﻿using Application.Models;
 using Application.Queues;
 using Application.Readers;
-using Application.Searchers;
+using Application.PathFinders;
 using Application.Writers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

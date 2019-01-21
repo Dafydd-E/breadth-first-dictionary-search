@@ -35,6 +35,7 @@ namespace Application.Readers
                     string line = stream.ReadLine();
                     if (line.Length == Constants.WordLength)
                     {
+                        this.Logger.LogTrace($"Adding {line} to the cache");
                         yield return line;
                     }
                 }

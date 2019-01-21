@@ -1,7 +1,7 @@
 ﻿using Application.Models;
 using Application.Queues;
 using Application.Readers;
-using Application.Searchers;
+using Application.PathFinders;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

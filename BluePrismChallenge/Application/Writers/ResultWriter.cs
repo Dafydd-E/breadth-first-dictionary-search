@@ -44,14 +44,15 @@ namespace Application.Writers
                 // Use a string builder to ouput result from the 
                 // start word to the end word.
                 StringBuilder builder = new StringBuilder();
-                
+
                 while (node != null)
                 {
                     builder.Insert(0, $"{node.Word}\n");
                     node = node.Parent;
                 }
+
                 this.Logger.LogInformation($"Writing to output file {this.Path}");
-                stream.Write(builder.ToString());
+                stream.Write(builder.Length > 0 ? builder.ToString() : "No path could be found.");
             }
         }
     }

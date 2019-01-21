@@ -1,4 +1,4 @@
-﻿namespace Application.Searchers
+﻿namespace Application.PathFinders
 {
     /// <summary>
     /// Defines the methods required to find a queue.

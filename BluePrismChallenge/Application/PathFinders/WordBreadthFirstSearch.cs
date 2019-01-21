@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Application.Searchers
+namespace Application.PathFinders
 {
     /// <summary>
     /// Searhes the queue using the Breadth-First search algorithm.
@@ -55,7 +55,6 @@ namespace Application.Searchers
             while (this.Queue.TryDequeue(out Node node))
             {
                 IEnumerable<Node> neighbours = this.FindNeighbours(node, this.Reader.Read());
-
                 foreach (Node neighbour in neighbours)
                 {
                     if (neighbour.Word.Equals(target.Word, StringComparison.OrdinalIgnoreCase))
