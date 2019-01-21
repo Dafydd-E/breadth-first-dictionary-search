@@ -7,6 +7,10 @@
     "Debug": {
       "commandName": "Project",
       "commandLineArgs": "C:\\Temp\\words-english.txt burr burt C:\\Temp\\output.txt"
+    },
+    "Edin > Edna": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Temp\\words-english.txt edin edna C:\\Temp\\output.txt"
     }
   }
 }

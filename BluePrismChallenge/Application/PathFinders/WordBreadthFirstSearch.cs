@@ -52,9 +52,11 @@ namespace Application.PathFinders
         {
             this.Queue.Enqueue(start);
 
+            IEnumerable<string> collection = this.Reader.Read();
+
             while (this.Queue.TryDequeue(out Node node))
             {
-                IEnumerable<Node> neighbours = this.FindNeighbours(node, this.Reader.Read());
+                IEnumerable<Node> neighbours = this.FindNeighbours(node, collection);
                 foreach (Node neighbour in neighbours)
                 {
                     if (neighbour.Word.Equals(target.Word, StringComparison.OrdinalIgnoreCase))
