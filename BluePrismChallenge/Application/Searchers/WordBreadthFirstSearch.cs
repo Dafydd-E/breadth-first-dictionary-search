@@ -42,13 +42,13 @@ namespace Application.Searchers
         }
 
         /// <summary>
-        /// Executes the search until the target is found.
+        /// Executes the search from the start node until the target is found.
         /// </summary>
         /// <param name="nodes"><see cref="IQueue{Node}"/> containing the nodes
         /// to explore adjacent words in the dictionary.</param>
         /// <param name="target">The item to search for.</param>
         /// <returns>The found object.</returns>
-        public Node Search(Node start, Node target)
+        public Node FindPath(Node start, Node target)
         {
             this.Queue.Enqueue(start);
 
@@ -81,7 +81,6 @@ namespace Application.Searchers
         {
             this.Logger.LogInformation($"Finding neighbours for node {node.ToString()}.");
 
-            string readString = string.Empty;
             while (this.Reader.Read())
             {
                 MatchCollection matches = node.Regex.Matches(this.Reader.CurrentString);

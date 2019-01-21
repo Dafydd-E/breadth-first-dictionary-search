@@ -50,7 +50,7 @@ namespace Application
                         $"letter words between {args[1]} and {args[2]}");
 
                     timer.Start();
-                    Node foundNode = searcher.Search(new Node(args[1]), new Node(args[2]));
+                    Node foundNode = searcher.FindPath(new Node(args[1]), new Node(args[2]));
                     timer.Stop();
 
                     Logger.LogInformation($"Search completed in {timer.ElapsedMilliseconds}ms");

@@ -42,6 +42,9 @@ namespace Application.Readers
             this.Stream.Close();
         }
 
+        /// <summary>
+        /// Gets a value indicating if the file stream has reached the end or not.
+        /// </summary>
         public bool AtEndOfStream()
         {
             return this.Stream.EndOfStream;

@@ -72,7 +72,7 @@ namespace ApplicationTest
                 new DistinctQueue<Node>(ServiceHelper.GetService<ILogger<DistinctQueue<Node>>>()),
                 ServiceHelper.GetService<ILogger<WordBreadthFirstSearch>>()))
             {
-                Node node = search.Search(new Node("Ross"), new Node("Roth"));
+                Node node = search.FindPath(new Node("Ross"), new Node("Roth"));
                 Assert.Equal("Roth", node.Word);
                 node = node.Parent;
                 Assert.Equal("Rosh", node.Word);

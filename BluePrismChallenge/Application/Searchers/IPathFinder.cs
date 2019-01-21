@@ -14,6 +14,6 @@ namespace Application.Searchers
         /// <param name="start">The strting item.</param>
         /// <param name="target">The finishing item.</param>
         /// <returns></returns>
-        T Search(T start, T target);
+        T FindPath(T start, T target);
     }
 }
