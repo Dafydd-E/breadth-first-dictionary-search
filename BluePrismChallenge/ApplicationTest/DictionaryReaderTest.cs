@@ -1,7 +1,9 @@
 using Application.Readers;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Xunit;
 
 namespace ApplicationTest
@@ -12,8 +14,9 @@ namespace ApplicationTest
     public class DictionaryReaderTest : IDisposable
     {
         private const string TestPath = @"C:\Temp\test-file.txt";
-        private const string FirstLine = "first line";
-        private const string SecondLine = "second line";
+        private const string FirstLine = "four";
+        private const string SecondLine = "five";
+        private const string ThirdLine = "My very long word";
         private readonly string[] TestContent = new string[] { FirstLine, SecondLine };
 
         /// <summary>
@@ -28,34 +31,22 @@ namespace ApplicationTest
         public void ReadTest()
         {
             ILogger<DictionaryReader> logger = ServiceHelper.GetService<ILogger<DictionaryReader>>();
-            using (DictionaryReader reader = new DictionaryReader(TestPath, logger))
-            {
-                Assert.True(reader.Read());
-                Assert.Equal(FirstLine, reader.CurrentString);
+            DictionaryReader reader = new DictionaryReader(TestPath, logger);
 
-                Assert.True(reader.Read());
-                Assert.Equal(SecondLine, reader.CurrentString);
+            var strings = new List<string> { FirstLine, SecondLine };
 
-                Assert.False(reader.Read());
-            }
+            Assert.Equal(strings.AsEnumerable<string>(), reader.Read());
         }
 
         [Fact]
-        public void ResetReaderTest()
+        public void ReadOnlyFourLetterWordsTest()
         {
             ILogger<DictionaryReader> logger = ServiceHelper.GetService<ILogger<DictionaryReader>>();
-            using (DictionaryReader reader = new DictionaryReader(TestPath, logger))
-            {
-                Assert.True(reader.Read());
-                Assert.NotNull(reader.CurrentString);
-                Assert.True(reader.Read());
-                Assert.NotNull(reader.CurrentString);
+            DictionaryReader reader = new DictionaryReader(TestPath, logger);
 
-                Assert.True(reader.AtEndOfStream());
-                reader.ResetReader();
-                Assert.Null(reader.CurrentString);
-                Assert.False(reader.AtEndOfStream());
-            }
+            var strings = new List<string> { FirstLine, SecondLine };
+
+            Assert.Equal(strings.AsEnumerable<string>(), reader.Read());
         }
 
         /// <summary>

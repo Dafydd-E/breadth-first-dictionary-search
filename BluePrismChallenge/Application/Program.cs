@@ -36,28 +36,26 @@ namespace Application
 
             try
             {
-                using (IPathFinder<Node> searcher = provider.GetRequiredService<IPathFinder<Node>>())
-                {
-                    Stopwatch timer = new Stopwatch();
+                IPathFinder<Node> searcher = provider.GetRequiredService<IPathFinder<Node>>();
+                Stopwatch timer = new Stopwatch();
 
-                    Node rootNode = new Node(args[1]);
-                    IQueue<Node> queue = new DistinctQueue<Node>(
-                        provider.GetRequiredService<ILogger<DistinctQueue<Node>>>());
+                Node rootNode = new Node(args[1]);
+                IQueue<Node> queue = new DistinctQueue<Node>(
+                    provider.GetRequiredService<ILogger<DistinctQueue<Node>>>());
 
-                    queue.Enqueue(rootNode);
+                queue.Enqueue(rootNode);
 
-                    Logger.LogInformation($"Finding shortest sequence of 4 " +
-                        $"letter words between {args[1]} and {args[2]}");
+                Logger.LogInformation($"Finding shortest sequence of 4 " +
+                    $"letter words between {args[1]} and {args[2]}");
 
-                    timer.Start();
-                    Node foundNode = searcher.FindPath(new Node(args[1]), new Node(args[2]));
-                    timer.Stop();
+                timer.Start();
+                Node foundNode = searcher.FindPath(new Node(args[1]), new Node(args[2]));
+                timer.Stop();
 
-                    Logger.LogInformation($"Search completed in {timer.ElapsedMilliseconds}ms");
+                Logger.LogInformation($"Search completed in {timer.ElapsedMilliseconds}ms");
 
-                    IWriter<Node> resultWriter = provider.GetRequiredService<IWriter<Node>>();
-                    resultWriter.Write(foundNode);
-                }
+                IWriter<Node> resultWriter = provider.GetRequiredService<IWriter<Node>>();
+                resultWriter.Write(foundNode);
             }
             catch (IOException e)
             {

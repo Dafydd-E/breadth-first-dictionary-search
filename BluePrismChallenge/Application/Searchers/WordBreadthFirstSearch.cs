@@ -54,7 +54,7 @@ namespace Application.Searchers
 
             while (this.Queue.TryDequeue(out Node node))
             {
-                IEnumerable<Node> neighbours = this.FindNeighbours(node);
+                IEnumerable<Node> neighbours = this.FindNeighbours(node, this.Reader.Read());
 
                 foreach (Node neighbour in neighbours)
                 {
@@ -77,35 +77,24 @@ namespace Application.Searchers
         /// </summary>
         /// <param name="node">The node to find it's neighbours.</param>
         /// <returns>List of neighouring nodes.</returns>
-        public IEnumerable<Node> FindNeighbours(Node node)
+        public IEnumerable<Node> FindNeighbours(Node node, IEnumerable<string> collection)
         {
             this.Logger.LogInformation($"Finding neighbours for node {node.ToString()}.");
 
-            while (this.Reader.Read())
+            foreach (string word in collection)
             {
-                MatchCollection matches = node.Regex.Matches(this.Reader.CurrentString);
+                MatchCollection matches = node.Regex.Matches(word);
 
                 foreach (Match match in matches)
                 {
                     this.Logger.LogTrace($"Found neighbour {match.Value} for parent {node.Word}");
-                    if (match.Length == Constants.WordLength &&
-                        !match.Value.Equals(node.Parent?.Word, StringComparison.OrdinalIgnoreCase) &&
+                    if (!match.Value.Equals(node.Parent?.Word, StringComparison.OrdinalIgnoreCase) &&
                         !match.Value.Equals(node.Word, StringComparison.OrdinalIgnoreCase))
                     {
                         yield return new Node(match.Value, node);
                     }
                 }
             }
-
-            this.Reader.ResetReader();
-        }
-
-        /// <summary>
-        /// Disposes the dictionary reader.
-        /// </summary>
-        public void Dispose()
-        {
-            this.Reader.Dispose();
         }
     }
 }
