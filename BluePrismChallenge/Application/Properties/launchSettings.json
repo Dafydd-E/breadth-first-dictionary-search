@@ -12,9 +12,13 @@
       "commandName": "Project",
       "commandLineArgs": "C:\\Temp\\words-english.txt edin edna C:\\Temp\\output.txt"
     },
-    "Voss > Rene": {
+    "Voss > Rena": {
       "commandName": "Project",
-      "commandLineArgs": "C:\\Temp\\words-english.txt voss rene C:\\Temp\\output.txt"
+      "commandLineArgs": "C:\\Temp\\words-english.txt voss rena C:\\Temp\\output.txt"
+    },
+    "Voss > Ohio": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Temp\\words-english.txt voss ohio C:\\Temp\\output.txt"
     }
   }
 }
