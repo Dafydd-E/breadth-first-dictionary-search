@@ -7,13 +7,8 @@ namespace Application.Queues
     /// Queue which only contains unique elements.
     /// </summary>
     /// <typeparam name="T">The type of items contained in the queue.</typeparam>
-    public class DistinctQueue<T> : IQueue<T>
+    public class DistinctQueue<T> : Queue<T>, IQueue<T>
     {
-        /// <summary>
-        /// Gets the queue of items.
-        /// </summary>
-        private Queue<T> Queue { get; } = new Queue<T>();
-
         /// <summary>
         /// Gets the hash of items in the queue.
         /// </summary>
@@ -43,7 +38,7 @@ namespace Application.Queues
         /// <returns>Value indicating if the item exists in the 
         /// <see cref="HashSet{T}"/> or not.
         /// </returns>
-        public bool Contains(T item)
+        public new bool Contains(T item)
         {
             this.Logger.LogTrace($"Checking if the item {item} is contained in the hash.");
             return this.Hash.Contains(item.GetHashCode());
@@ -55,33 +50,21 @@ namespace Application.Queues
         /// if it is not in the queue already.
         /// </summary>
         /// <param name="item">The item to add to the queue.</param>
-        public void Enqueue(T item)
+        public new void Enqueue(T item)
         {
             if (this.Hash.Add(item.GetHashCode()))
             {
                 this.Logger.LogTrace($"Adding item to queue {item.ToString()}");
-                this.Queue.Enqueue(item);
+                base.Enqueue(item);
             }
-        }
-
-        /// <summary>
-        /// Attempts to retrieve an item from the queue.
-        /// </summary>
-        /// <param name="item">Out parameter set to the next item in the queue if it exist.</param>
-        /// <returns>Value indicating if the next item exists in the 
-        /// queue or not.
-        /// </returns>
-        public bool TryDequeue(out T item)
-        {
-            return this.Queue.TryDequeue(out item);
         }
 
         /// <summary>
         /// Clears up the queue and hash to free up resources.
         /// </summary>
-        public void Clear()
+        public new void Clear()
         {
-            this.Queue.Clear();
+            base.Clear();
             this.Hash.Clear();
         }
     }
