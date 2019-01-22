@@ -2,7 +2,7 @@
 
 ## Process
 
-After reviewing the challenge, I could see that this is a "searching" problem. I researched into different searching algorithms to identify the best for this scenario, which concluded with the decision to use the Breadth-First search algorithm, this algorithm was chosen as it would find the shortest path from the start word to the end word in the minimum number of operations. It works as follows:
+After reviewing the challenge, I could see that this is a "searching" problem. I researched into different searching algorithms to identify the best for this scenario, which concluded with the decision to use the Breadth-First search algorithm [1], this algorithm was chosen as it would find the shortest path from the start word to the end word in the minimum number of operations. It works as follows:
 
 1. From the starting position, find all the adjacent words (four-letter words which differ by one letter).
 
@@ -37,3 +37,7 @@ I didn't use TDD in this small project due to it's size and the timeline I didn'
 ## Limitations
 
 The biggest limitation in this application is it's memory usage. The longer the path between the start word and the end word the more hashes are stored in the `HashSet<T>` and the cached dictionary, therefore the more memory the application uses. If one was to specify the start and end word with the longest path in the whole dictionary, then the application will load the entire dictionary into memory.
+
+# References
+
+1. https://en.wikipedia.org/wiki/Breadth-first_search
