@@ -11,7 +11,7 @@ namespace ApplicationTest
         private const string NodeWord = "test";
 
         [Fact]
-        public void ConstructorSuccessTest()
+        public void NodeInitialisedSuccessfullyTest()
         {
             Node node = new Node(NodeWord);
             Assert.NotNull(node);
