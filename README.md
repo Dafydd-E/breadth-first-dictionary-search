@@ -40,6 +40,8 @@ I didn't use TDD in this small project due to it's size and the timeline I didn'
 
 The biggest limitation in this application is it's memory usage. The longer the path between the start word and the end word the more hashes are stored in the `HashSet<T>` and the cached dictionary, therefore the more memory the application uses. If one was to specify the start and end word with the longest path in the whole dictionary, then the application will load the entire dictionary into memory.
 
-# References
+## References
 
 1. https://en.wikipedia.org/wiki/Breadth-first_search
+
+2. https://en.wikipedia.org/wiki/Graph_traversal#Graph_traversal_algorithms
