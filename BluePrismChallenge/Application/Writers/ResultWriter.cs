@@ -39,6 +39,7 @@ namespace Application.Writers
         /// </param>
         public void Write(Node node)
         {
+            this.Logger.LogDebug($"Initialiing write stream to the path {this.Path}");
             using (StreamWriter stream = new StreamWriter(File.Create(this.Path)))
             {
                 // Use a string builder to ouput result from the 
@@ -47,6 +48,7 @@ namespace Application.Writers
 
                 while (node != null)
                 {
+                    this.Logger.LogDebug($"Adding {node.Word} to the start of the string builder.");
                     builder.Insert(0, $"{node.Word}\n");
                     node = node.Parent;
                 }

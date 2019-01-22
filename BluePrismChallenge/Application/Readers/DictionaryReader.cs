@@ -36,6 +36,7 @@ namespace Application.Readers
         /// letter words in the dictionary.</returns>
         public IEnumerable<string> Read()
         {
+            this.Logger.LogInformation($"Reading from the dictionary file {this.DictionaryLocation}");
             using (var stream = new StreamReader(this.DictionaryLocation))
             {
                 while (!stream.EndOfStream)

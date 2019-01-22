@@ -12,6 +12,8 @@ After reviewing the challenge, I could see that this is a "searching" problem. I
 
 One of the early considerations I needed to address was how I was going to read from the dictionary `.txt` file. Initially, I wanted the application to be as light-weight as possible, loading the minimum amount of data into memory as I could. I implemented this by using a `StreamRead` implementing the iterator pattern reading the entire file when required. Whilst I was testing the application I wasn't happy with the performance and this approach of reading the dictionary file. Instead, I decided to use a `StreamReader` and only cache the four-letter words in the dictionary, this way the memory usage is minimised whilst maximising performance.  
 
+Logging is an important part of every application, not just as a debugging tool in this case but as an indication to the user what the application is currently doing and displaying any errors if appropriate. I ensured that I added logging at different levels for the reasons outlined above.
+
 ## Implementation of a Unique Queue
 
 Since the C# `Queue<T>` can have duplicate objects, I extended the C# `Queue<T>` with a `DistinctQueue<T>` to add words which needed to be explored by the Breadth-First search algorithm and to retrieve the next word to execute the search. Behind the scenes, this used a `HashSet<int>`, which contained a distinct list of hashed words that have been and to be explored.
