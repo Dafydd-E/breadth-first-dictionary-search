@@ -2,7 +2,7 @@
 
 ## Process
 
-After reviewing the challenge, I could see that this is a "searching" problem. I researched into different searching algorithms to identify the best for this scenario, which concluded with the decision to use the Breadth-First search algorithm [1], this algorithm was chosen as it would find the shortest path from the start word to the end word in the minimum number of operations. It works as follows:
+After reviewing the challenge, I could see that this is a "graph-traversal" problem. I researched into different graph/tree traversal algorithms to identify the best for this scenario, which concluded with the decision to use the Breadth-First search algorithm [1], this algorithm was chosen as it would find the shortest path from the start word to the end word in the minimum number of operations. It works as follows:
 
 1. From the starting position, find all the adjacent words (four-letter words which differ by one letter).
 
