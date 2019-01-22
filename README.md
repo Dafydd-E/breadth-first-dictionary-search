@@ -34,11 +34,11 @@ I used a `HashSet<int>` and not a `List<Node>` for storing explored words, as th
 
 Once my implementations had been completed I added Unit Tests, to ensure that my classes and methods behaved the way I expected them to and to ensure that any additional change sets didn't break functionality.
 
-I didn't use TDD in this small project due to it's size and the timeline I didn't want to create my test without ensuring that I could finish the project by the due date.
+I didn't use TDD in this small project due to its size and the timeline I didn't want to create my test without ensuring that I could finish the project by the due date.
 
 ## Limitations
 
-The biggest limitation in this application is it's memory usage. The longer the path between the start word and the end word the more hashes are stored in the `HashSet<T>` and the cached dictionary, therefore the more memory the application uses. If one was to specify the start and end word with the longest path in the whole dictionary, then the application will load the entire dictionary into memory.
+The biggest limitation in this application is its memory usage. The longer the path between the start word and the end word the more hashes are stored in the `HashSet<T>` and the cached dictionary, therefore the more memory the application uses. If one was to specify the start and end word with the longest path in the whole dictionary, then the application will load the entire dictionary into memory.
 
 ## References
 
