@@ -10,15 +10,13 @@ After reviewing the challenge, I could see that this is a "searching" problem. I
 
 3. Repeat steps 1 and 2 ensuring that the word previously explored is not included in the found list of adjacent words.
 
-## Early Considerations
-
-One of the early considerations I needed to address was how I was going to read from the dictionary `.txt` file. Loading the dictionary into memory would lead to a more efficient application but could be catastrophic in a memory restricted environment when using a large dictionary. I decided to use a `StreamReader` and only cache the four letter words in the dictionary, this way the memory usage is minimised whilst maximising performance.  
+One of the early considerations I needed to address was how I was going to read from the dictionary `.txt` file. Initially, I wanted the application to be as light-weight as possible, loading the minimum amount of data into memory as I could. I implemented this by using a `StreamRead` implementing the iterator pattern reading the entire file when required. Whilst I was testing the application I wasn't happy with the performance and this approach. Instead, I decided to use a `StreamReader` and only cache the four-letter words in the dictionary, this way the memory usage is minimised whilst maximising performance.  
 
 ## Implementation of a Unique Queue
 
 Since the C# `Queue<T>` can have duplicate objects, I extended the C# `Queue<T>` with a `DistinctQueue<T>` to add words which needed to be explored by the Breadth-First search algorithm and to retrieve the next word to execute the search. Behind the scenes, this used a `HashSet<int>`, which contained a distinct list of hashed words that have been and to be explored.
 
-I used a `HashSet<int>` and not a `List<Node>` for storing explored words, as this is more memory efficient and allows for quicker lookups.
+I used a `HashSet<int>` and not a `List<Node>` for storing explored words, as this is more memory efficient and allows for quick lookups.
 
 ## Dependency Injection
 
@@ -38,4 +36,4 @@ I didn't use TDD in this small project due to it's size and the timeline I didn'
 
 ## Limitations
 
-The biggest limitation in this application is it's memory usage. The longer the path between the start word and the end word the more hashes are stored in the `HashSet<T>` and the more memory the application uses. If one was to specify the start and end word with the longest path in the whole dictionary, then the application will load the entire dictionary into memory.
+The biggest limitation in this application is it's memory usage. The longer the path between the start word and the end word the more hashes are stored in the `HashSet<T>` and the cached dictionary, therefore the more memory the application uses. If one was to specify the start and end word with the longest path in the whole dictionary, then the application will load the entire dictionary into memory.
