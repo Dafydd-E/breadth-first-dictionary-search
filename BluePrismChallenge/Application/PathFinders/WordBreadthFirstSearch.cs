@@ -23,8 +23,14 @@ namespace Application.PathFinders
         /// </summary>
         private ILogger<WordBreadthFirstSearch> Logger { get; }
 
+        /// <summary>
+        /// Gets the queue of nodes to explore.
+        /// </summary>
         private IQueue<Node> Queue { get; }
 
+        /// <summary>
+        /// Gets the collection of four letter words.
+        /// </summary>
         private IEnumerable<string> Collection { get; }
 
         /// <summary>

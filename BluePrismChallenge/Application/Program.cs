@@ -1,7 +1,7 @@
 ﻿using Application.Models;
+using Application.PathFinders;
 using Application.Queues;
 using Application.Readers;
-using Application.PathFinders;
 using Application.Writers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,43 +12,46 @@ using System.IO;
 
 namespace Application
 {
-    class Program
+    /// <summary>
+    /// Console application which finds the shortest path between the specified
+    /// start and end words.
+    /// </summary>
+    public class Program
     {
+        /// <summary>
+        /// The program logger instance.
+        /// </summary>
         private static ILogger<Program> Logger { get; set; }
 
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        /// <param name="args">The command line arguments.</param>
         static void Main(string[] args)
         {
-            ServiceCollection serviceCollection = new ServiceCollection();
-            IServiceProvider provider = ConfigureServices(serviceCollection, args);
+            IServiceProvider provider = ConfigureServices(new ServiceCollection(), args);
             Logger = provider.GetRequiredService<ILogger<Program>>();
 
             if (args.Length != Constants.ArgumentLength)
             {
-                Logger.LogError("Expecting 4 command line arguments");
+                Logger.LogError($"Expecting {Constants.ArgumentLength} command line arguments");
                 return;
             }
 
             if (args[1].Length != Constants.WordLength && args[2].Length != Constants.WordLength)
             {
-                Logger.LogError("The start and end word must both be 4 letters long");
+                Logger.LogError($"The start and end word must both be {Constants.WordLength} letters long");
                 return;
             }
 
             try
             {
-                IPathFinder<Node> searcher = provider.GetRequiredService<IPathFinder<Node>>();
-                Stopwatch timer = new Stopwatch();
-
-                Node rootNode = new Node(args[1]);
-                IQueue<Node> queue = new DistinctQueue<Node>(
-                    provider.GetRequiredService<ILogger<DistinctQueue<Node>>>());
-
-                queue.Enqueue(rootNode);
-
-                Logger.LogInformation($"Finding shortest sequence of 4 " +
+                Logger.LogInformation($"Finding shortest sequence of {Constants.WordLength} " +
                     $"letter words between {args[1]} and {args[2]}");
 
+                Stopwatch timer = new Stopwatch();
                 timer.Start();
+                IPathFinder<Node> searcher = provider.GetRequiredService<IPathFinder<Node>>();
                 Node foundNode = searcher.FindPath(new Node(args[1]), new Node(args[2]));
                 timer.Stop();
 

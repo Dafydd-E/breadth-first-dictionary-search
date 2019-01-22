@@ -14,6 +14,9 @@ namespace Application.Readers
         /// </summary>
         private ILogger<DictionaryReader> Logger { get; }
 
+        /// <summary>
+        /// The location of the dictionary in the local file system.
+        /// </summary>
         private string DictionaryLocation { get; }
 
         /// <summary>
@@ -26,6 +29,11 @@ namespace Application.Readers
             this.DictionaryLocation = dictionaryLocation;
         }
 
+        /// <summary>
+        /// Reads all the four letter words from the local dictionary file.
+        /// </summary>
+        /// <returns><see cref="IEnumerable{string}"/> containing all the four
+        /// letter words in the dictionary.</returns>
         public IEnumerable<string> Read()
         {
             using (var stream = new StreamReader(this.DictionaryLocation))

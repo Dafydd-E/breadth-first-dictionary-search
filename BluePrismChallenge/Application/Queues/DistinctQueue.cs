@@ -64,6 +64,7 @@ namespace Application.Queues
         /// </summary>
         public new void Clear()
         {
+            this.Logger.LogDebug("Clearing up all the resources used by the queue");
             base.Clear();
             this.Hash.Clear();
         }
