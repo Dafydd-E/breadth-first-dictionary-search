@@ -45,3 +45,5 @@ The biggest limitation in this application is it's memory usage. The longer the 
 1. https://en.wikipedia.org/wiki/Breadth-first_search
 
 2. https://en.wikipedia.org/wiki/Graph_traversal#Graph_traversal_algorithms
+
+3. https://en.wikipedia.org/wiki/Tree_traversal
