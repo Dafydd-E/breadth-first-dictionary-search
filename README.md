@@ -10,7 +10,7 @@ After reviewing the challenge, I could see that this is a "searching" problem. I
 
 3. Repeat steps 1 and 2 ensuring that the word previously explored is not included in the found list of adjacent words.
 
-One of the early considerations I needed to address was how I was going to read from the dictionary `.txt` file. Initially, I wanted the application to be as light-weight as possible, loading the minimum amount of data into memory as I could. I implemented this by using a `StreamRead` implementing the iterator pattern reading the entire file when required. Whilst I was testing the application I wasn't happy with the performance and this approach. Instead, I decided to use a `StreamReader` and only cache the four-letter words in the dictionary, this way the memory usage is minimised whilst maximising performance.  
+One of the early considerations I needed to address was how I was going to read from the dictionary `.txt` file. Initially, I wanted the application to be as light-weight as possible, loading the minimum amount of data into memory as I could. I implemented this by using a `StreamRead` implementing the iterator pattern reading the entire file when required. Whilst I was testing the application I wasn't happy with the performance and this approach of reading the dictionary file. Instead, I decided to use a `StreamReader` and only cache the four-letter words in the dictionary, this way the memory usage is minimised whilst maximising performance.  
 
 ## Implementation of a Unique Queue
 
