@@ -62,8 +62,11 @@ namespace Application
             }
             catch (IOException e)
             {
-                Logger.LogError("An error occurred whilst trying to " +
-                    $"read the dictionary file with path {args[0]}", e);
+                Logger.LogError(0, e, "An error occurred whilst trying to read/write to the file system");
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Logger.LogError(0, e, $"The application does not have permission to write to {args[3]}");
             }
 
             Console.WriteLine("Press enter to exit.");

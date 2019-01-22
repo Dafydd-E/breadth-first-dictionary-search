@@ -4,6 +4,6 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <PropertyGroup>
-    <ActiveDebugProfile>Voss &gt; Rena</ActiveDebugProfile>
+    <ActiveDebugProfile>Invalid Output Location</ActiveDebugProfile>
   </PropertyGroup>
 </Project>

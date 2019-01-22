@@ -19,6 +19,14 @@
     "Voss > Ohio": {
       "commandName": "Project",
       "commandLineArgs": "C:\\Temp\\words-english.txt voss ohio C:\\Temp\\output.txt"
+    },
+    "Invalid Dictionary Location": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Invalid voss rena C:\\Invalid"
+    },
+    "Unauthorised Output Location": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Temp\\words-english.txt voss rena C:\\Invalid"
     }
   }
 }
