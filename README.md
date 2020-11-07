@@ -1,4 +1,4 @@
-# Blue Prism Technical Challenge
+# Breadth First Search Technical Challenge
 
 ## Process
 
